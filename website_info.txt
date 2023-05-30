@@ -1,0 +1,188 @@
+############################################################# Server Creation ########################################################### 
+1. Create Server_Socket
+2.Bind(Naming) Server_Socket to IP and PORT
+3. Listen for Traffic with Server_Socket
+Server will always be listening when it is up but WHILE it is up, new connections are always made and terminated,
+data is constantly being read and sent over and over and over.....
+while(1)
+{
+    4. Connect(Accept) Traffic
+        1. Create Data Transfer Socket
+    5. Parse Traffic Data
+        1. Read HTTP Request
+    6. Fetch Traffic Data
+    7. Send Traffic Data
+        1. Required 3 Headers HTTP/1.1 200 OK, Content-Type: text/plain, Content-Length:
+    8. Close Data Transfer Socket Connection    
+}
+########################################################################################################################################## 
+
+
+############################################################# Pasring HTTP REQUEST #######################################################
+1. Seperate request line by line save to vector
+    1. Assigned STARTLINE 
+    2. Assign Header-Fields Key:Value
+    3. Determine if Message Body by Content-Length or Transfer-Encoding header field
+2. Parse Request
+    1. Method
+    2. File
+
+3. Fetch Request
+    1. Check if resource exists
+    2. Set Status Code
+    3. Send_Response()
+
+4. Send_Response()
+    1. Construct Header
+    2. Send Header
+
+########################################################################################################################################## 
+
+
+################################################################### PROTOCOLS #############################################################
+Key Protocols:
+
+    1.  A recipient MUST parse an HTTP message as a sequence of octets in an encoding that is a superset of US-ASCII [USASCII].
+
+    2.  Read START LINE into structure
+            1.START LINE is either request(client to server) or response(Server to client)
+
+    3.  Header Fields in to Hash Table till empty line
+
+    4.  Determine if a message body is expected signaled by a Content-Length or Transfer-Encoding header field  
+            1. If a message body has been indicated, then it is read as a stream until an amount of octets
+                equal to the message body length is read or the connection is closed
+
+    5.  No whitespace is allowed between the header field-name and colon. A server MUST reject any received request message that contains
+        whitespace between a header field-name and colon with a response code
+        of 400 (Bad Request)
+        
+    6.  The field value does not include any leading or trailing whitespace
+---------------------------------------------------------------------------------------------------------------------------------
+HTTP MESSAGES
+
+    SP = White Space
+    CR = \r Carriage return
+    LF = \n New Line(Line Feed)
+
+    TEMPLATE OF REPONSE WITH BODY 
+    status-line = HTTP-version SP status-code SP reason-phrase CRLF
+    Header-feild(s) : Head-field-Value
+    Content-Length : Lenght_VALUE
+    *EMPTY SPACE*
+    *BODY MESSAGE*
+
+    Exmaple of http response 
+    HTTP/1.1 200 OK
+    Server: Apache
+    Content-Length: 220
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Michael Mannucci | Personal Website</title>
+    </head>
+    <body>
+    <header>
+        <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        </nav>
+    </header>
+
+    <section id="about">
+        <div class="container">
+        <h1>About Me</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum urna sit amet sollicitudin placerat.</p>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container">
+        <h1>Portfolio</h1>
+        <div class="project">
+            <h3>Project 1</h3>
+            <p>Description of Project 1</p>
+        </div>
+        <div class="project">
+            <h3>Project 2</h3>
+            <p>Description of Project 2</p>
+        </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+        <h1>Contact Me</h1>
+        <p>Email: example@example.com</p>
+        <p>Phone: 123-456-7890</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Michael Mannucci. All rights reserved.</p>
+    </footer>
+    </body>
+    </html>
+
+---------------------------------------------------------------------------------------------------------------------------------
+HTTP METHODS
+ +---------+------+------------+---------------+
+| Method  | Safe | Idempotent | Reference     |
++---------+------+------------+---------------+
+| CONNECT | no   | no         | Section 4.3.6 |
+| DELETE  | no   | yes        | Section 4.3.5 |
+| GET     | yes  | yes        | Section 4.3.1 |
+| HEAD    | yes  | yes        | Section 4.3.2 |
+| OPTIONS | yes  | yes        | Section 4.3.7 |
+| POST    | no   | no         | Section 4.3.3 |
+| PUT     | no   | yes        | Section 4.3.4 |
+| TRACE   | yes  | yes        | Section 4.3.8 |
++---------+------+------------+---------------+
+   
+---------------------------------------------------------------------------------------------------------------------------------
+STATUS CODES
++-------+-------------------------------+----------------+
+| Value | Description                   | Reference      |
++-------+-------------------------------+----------------+
+| 100   | Continue                      | Section 6.2.1  |
+| 101   | Switching Protocols           | Section 6.2.2  |
+| 200   | OK                            | Section 6.3.1  |
+| 201   | Created                       | Section 6.3.2  |
+| 202   | Accepted                      | Section 6.3.3  |
+| 203   | Non-Authoritative Information | Section 6.3.4  |
+| 204   | No Content                    | Section 6.3.5  |
+| 205   | Reset Content                 | Section 6.3.6  |
+| 300   | Multiple Choices              | Section 6.4.1  |
+| 301   | Moved Permanently             | Section 6.4.2  |
+| 302   | Found                         | Section 6.4.3  |
+| 303   | See Other                     | Section 6.4.4  |
+| 305   | Use Proxy                     | Section 6.4.5  |
+| 306   | (Unused)                      | Section 6.4.6  |
+| 307   | Temporary Redirect            | Section 6.4.7  |
+| 400   | Bad Request                   | Section 6.5.1  |
+| 402   | Payment Required              | Section 6.5.2  |
+| 403   | Forbidden                     | Section 6.5.3  |
+| 404   | Not Found                     | Section 6.5.4  |
+| 405   | Method Not Allowed            | Section 6.5.5  |
+| 406   | Not Acceptable                | Section 6.5.6  |
+| 408   | Request Timeout               | Section 6.5.7  |
+| 409   | Conflict                      | Section 6.5.8  |
+| 410   | Gone                          | Section 6.5.9  |
+| 411   | Length Required               | Section 6.5.10 |
+| 413   | Payload Too Large             | Section 6.5.11 |
+| 414   | URI Too Long                  | Section 6.5.12 |
+| 415   | Unsupported Media Type        | Section 6.5.13 |
+| 417   | Expectation Failed            | Section 6.5.14 |
+| 426   | Upgrade Required              | Section 6.5.15 |
+| 500   | Internal Server Error         | Section 6.6.1  |
+| 501   | Not Implemented               | Section 6.6.2  |
+| 502   | Bad Gateway                   | Section 6.6.3  |
+| 503   | Service Unavailable           | Section 6.6.4  |
+| 504   | Gateway Timeout               | Section 6.6.5  |
+| 505   | HTTP Version Not Supported    | Section 6.6.6  |
++-------+-------------------------------+----------------+
+########################################################################################################################################## 
