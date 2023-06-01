@@ -129,29 +129,53 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
-local_server.o: local_server.cpp.o
-.PHONY : local_server.o
+includes/Sourcefiles/http_request.o: includes/Sourcefiles/http_request.cpp.o
+.PHONY : includes/Sourcefiles/http_request.o
 
 # target to build an object file
-local_server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/local_server.cpp.o
-.PHONY : local_server.cpp.o
+includes/Sourcefiles/http_request.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o
+.PHONY : includes/Sourcefiles/http_request.cpp.o
 
-local_server.i: local_server.cpp.i
-.PHONY : local_server.i
+includes/Sourcefiles/http_request.i: includes/Sourcefiles/http_request.cpp.i
+.PHONY : includes/Sourcefiles/http_request.i
 
 # target to preprocess a source file
-local_server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/local_server.cpp.i
-.PHONY : local_server.cpp.i
+includes/Sourcefiles/http_request.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.i
+.PHONY : includes/Sourcefiles/http_request.cpp.i
 
-local_server.s: local_server.cpp.s
-.PHONY : local_server.s
+includes/Sourcefiles/http_request.s: includes/Sourcefiles/http_request.cpp.s
+.PHONY : includes/Sourcefiles/http_request.s
 
 # target to generate assembly for a file
-local_server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/local_server.cpp.s
-.PHONY : local_server.cpp.s
+includes/Sourcefiles/http_request.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.s
+.PHONY : includes/Sourcefiles/http_request.cpp.s
+
+includes/Sourcefiles/local_server.o: includes/Sourcefiles/local_server.cpp.o
+.PHONY : includes/Sourcefiles/local_server.o
+
+# target to build an object file
+includes/Sourcefiles/local_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o
+.PHONY : includes/Sourcefiles/local_server.cpp.o
+
+includes/Sourcefiles/local_server.i: includes/Sourcefiles/local_server.cpp.i
+.PHONY : includes/Sourcefiles/local_server.i
+
+# target to preprocess a source file
+includes/Sourcefiles/local_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.i
+.PHONY : includes/Sourcefiles/local_server.cpp.i
+
+includes/Sourcefiles/local_server.s: includes/Sourcefiles/local_server.cpp.s
+.PHONY : includes/Sourcefiles/local_server.s
+
+# target to generate assembly for a file
+includes/Sourcefiles/local_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.s
+.PHONY : includes/Sourcefiles/local_server.cpp.s
 
 # Help Target
 help:
@@ -162,9 +186,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... server"
-	@echo "... local_server.o"
-	@echo "... local_server.i"
-	@echo "... local_server.s"
+	@echo "... includes/Sourcefiles/http_request.o"
+	@echo "... includes/Sourcefiles/http_request.i"
+	@echo "... includes/Sourcefiles/http_request.s"
+	@echo "... includes/Sourcefiles/local_server.o"
+	@echo "... includes/Sourcefiles/local_server.i"
+	@echo "... includes/Sourcefiles/local_server.s"
 .PHONY : help
 
 

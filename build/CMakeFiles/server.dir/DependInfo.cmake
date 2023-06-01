@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/Programming/Server/local_server.cpp" "CMakeFiles/server.dir/local_server.cpp.o" "gcc" "CMakeFiles/server.dir/local_server.cpp.o.d"
+  "/home/Programming/Server/includes/Sourcefiles/http_request.cpp" "CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o" "gcc" "CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o.d"
+  "/home/Programming/Server/includes/Sourcefiles/local_server.cpp" "CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o" "gcc" "CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o.d"
   )
 
 # Targets to which this target links.

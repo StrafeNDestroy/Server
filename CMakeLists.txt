@@ -3,7 +3,10 @@ project(server)
 
 set(
 SOURCES
-local_server.cpp
+includes/Sourcefiles/local_server.cpp
+includes/Sourcefiles/http_request.cpp
+
+
  
 )
 

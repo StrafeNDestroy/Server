@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cerrno>
 #include <vector>
+#include "http_request.hpp"
 
 
 
@@ -23,7 +24,7 @@ if (server_socket_fd < 0)
 }
 else 
 {
-    std::cout << "Server Socket Created! Server fd "<< server_socket_fd << "\n" << std::endl;
+    std::cout << "Server Socket Created!" << std::endl;
 }
 
 // Creating socket options to close socket when the program exits or crashes 
@@ -71,7 +72,6 @@ while(1)
     // ##################################### Accept #####################################
     std::cout << "################################ Waiting for Client Connection ################################ \n" << std::endl;
     int data_socket_fd = accept(server_socket_fd,(struct sockaddr*) &family_address,(socklen_t *)&address_length);
-    std::cout << data_socket_fd << "\n" <<std::endl;
     if (data_socket_fd < 0)
     {
         std::cout << " Client connection socket not created, Errno: " << errno << "\n"<< std::endl;
@@ -79,12 +79,18 @@ while(1)
     }
     //Allocate to Heap attempt to prevent buffer overflow
     char requestbuffer[30000];
-    int valread = read( data_socket_fd , requestbuffer, 30000);
+    int valread = read( data_socket_fd , requestbuffer, 30000-1);
     std::string requestbuffer_str(requestbuffer);
     std::cout << "################################ Reading Client HTTP Request ################################ \n" << std::endl;
     // This section will contain HTTP_REQUEST Class to parse and sanatize request according the RFC7230
+    const std::string buffer(requestbuffer);
+    HTTP_REQUEST Http_Request(buffer);
+    std::cout << "Server Response: " << Http_Request.SERVER_RESPONSE << std::endl;
     
-    std::cout << requestbuffer_str << std::endl;
+    
+    
+    // write(data_socket_fd,requestbuffer,sizeof(server_response));
+    
 }
 
     return 0;

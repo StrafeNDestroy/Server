@@ -1,118 +1,135 @@
 
-#include <unordered_map>
-#include <vector>
-#include <string>
-#include <iostream>
-#include <stdlib.h>
-#include <string.h>
-#include <sstream> 
-#include <regex>
+#include "http_request.hpp"
 
-
-char* METHOD,STATUS_CODE,OUTWARD_HEADER;
-
-class HTTP_REQUEST
+HTTP_REQUEST::HTTP_REQUEST(const std::string& http_request_message)
 {
-
-// Class attributes 
-private: 
-    std::vector<std::string> requestLines;
-    std::string http_message;
-    std::string http_messgae_first_line; 
-    std::unordered_map <std::string,std::string> http_message_hashtable;
-    int payload_flag = 0;
-
-// Constructor
-public: 
-    HTTP_REQUEST(const std::string& http_request)
-    {
-        http_message = http_request;
-        requestlines_to_vector();
-        requestlines_to_hashtable();
-
-    }
-
-    // Parsing http request line by line, saving to vector
-    void requestlines_to_vector()
-    {
-        std::istringstream iss(http_message);
-        std::string line;
-        std::regex pattern("Content-Length",std::regex_constants::icase);
-        while (std::getline(iss, line))
-        {
-            if (line == "\r") // preventing blank line to be added to vector 
-            {
-
-                continue;
-            }
-            
-            if(std::regex_search(line,pattern))
-            {
-                payload_flag = 1;
-                std::cout << "Move the payload" << std::endl;
-            }
-
-            else // adding line to vector 
-            {
-            // std::cout << line << std::endl;
-            requestLines.push_back(line);
-            }
-        }
-        http_messgae_first_line = requestLines[0];
-        requestLines.erase(requestLines.begin());
-        
-
-    }
-
-   void requestlines_to_hashtable()
-    {
-        // WS = WhiteSpace, hf = Header Field
-        std::regex ws_error_pattern(R"(([a-zA-Z]+\s+:))");
-        std::regex hf_pattern(R"(([a-zA-Z]+:)(\s*[a-zA-Z]+)\s*)");
-        
-        for(std::string element : requestLines)
-        {
-            if (std::regex_search(element,ws_error_pattern))
-            {
-                // Send 400 (Bad Request), Stop adding to hash and send 
-                std::cout << "Follow Protocol Sir" << std::endl;
-            }
-            else
-            {
-                std::smatch matches;
-                std::regex_search(element,matches,hf_pattern);
-                std::cout <<"Key: " << matches[0] << " Value: " << matches[1] << std::endl;
-
-                          
-            }
-        }    
-    }
-
-
-    
-
-  
-
-    void print_request()
-    {
-        std::cout << "Request lines:" << std::endl;
-        for (const std::string& line : requestLines)
-        {
-            // std::cout << line << std::endl;
-        }
-        if(payload_flag)
-        {
-            // std::cout << "THERE IS A MESSAGE" << std::endl;
-        }
-    }
-
-    
-};
-
-int main()
-{
-    std::string http_request = "GET /index.html HTTP/1.1\r\nHost : example.com\r\nUserAgent: Mozilla/5.0\r\nContent-Length: 220\r\n\r\nThis is the body stuff";
-    HTTP_REQUEST request(http_request);
-
-    return 0;
+    HTTP_REQUEST_MESSAGE = http_request_message;
+    StringToLinesConversion();
+    Categorize_HeaderFields();
+    std::string  FirstLine_Parse();
+    std::string resource_data = Fetch_Resource(WEBPAGE_PATH);
+    Build_Http_Response(resource_data);
 }
+
+void HTTP_REQUEST::StringToLinesConversion()
+{
+    std::istringstream iss(this->HTTP_REQUEST_MESSAGE);
+    std::string line;
+    std::regex pattern("Content-Length",std::regex_constants::icase);
+    while (std::getline(iss, line))
+    {
+        if (line == "\r") // preventing blank line to be added to vector 
+        {
+
+            continue;
+        }
+        
+        if(std::regex_search(line,pattern))
+        {
+            BODY_FLAG = 1;
+            std::cout << "Move the payload" << std::endl;
+            
+        }
+        HTTP_REQUEST_ELEMENTS.push_back(line);
+    }
+
+
+    HTTP_MESSAGE_FIRST_LINE = HTTP_REQUEST_ELEMENTS[0];
+    HTTP_REQUEST_ELEMENTS.erase(HTTP_REQUEST_ELEMENTS.begin());
+
+    // Grabbing message body from vector
+    if(BODY_FLAG) 
+    {
+        HTTP_BODY = HTTP_REQUEST_ELEMENTS.back();
+        HTTP_REQUEST_ELEMENTS.erase(HTTP_REQUEST_ELEMENTS.end());
+    } 
+}
+
+void HTTP_REQUEST::Categorize_HeaderFields()
+{
+    // WS = WhiteSpace, hf = Header Field
+    std::regex ws_error_pattern(R"(([a-zA-Z]+\s+:))");
+    std::regex hf_pattern(R"(([a-zA-Z-]+):(.+))");
+    
+    for(std::string element : HTTP_REQUEST_ELEMENTS)
+    {
+        if (std::regex_search(element,ws_error_pattern))
+        {
+            // Send 400 (Bad Request), Stop adding to hash and send 
+            std::cout << "Follow Protocol Sir" << std::endl;
+        }
+        else
+        {
+            // FIX ISSUES WITH MATCHING
+            std::smatch matches;
+            std::regex_search(element,matches,hf_pattern);
+            HTTP_HEADER_CATEGORIES.insert({matches[1],matches[2]});                        
+        }
+    }    
+}    
+
+
+std::string HTTP_REQUEST::FirstLine_Parse()
+{
+    std::smatch matches;
+    std::string resource_data;
+    std::string methods = R"((connect|delete|get|head|options|post|put|trace))";
+    std::string website_pages = R"((/))";
+    std::string http_version = R"((HTTP/1.1|HTTP/2|HTTP/3))";
+    std::string pattern_str = methods+" " + website_pages + " "+ http_version;
+    std::regex pattern(pattern_str,std::regex_constants::icase);
+    
+    if(std::regex_search(HTTP_MESSAGE_FIRST_LINE,matches,pattern))
+    {
+        METHOD =  matches[1];
+        HTTP_VERSION = matches[3] ;
+        resource_data = Fetch_Resource(WEBPAGE_PATH);
+
+    }
+    else
+    {
+        std::cout << "Invalid Request" << std::endl;
+    }
+    return resource_data;
+}
+
+std::string HTTP_REQUEST::Fetch_Resource(std::string resource_path)
+{
+       std::ifstream file;
+        std::vector<std::string> vector_data;
+        file.open(PATH_HEAD + resource_path);
+        std::string line;
+        while(std::getline(file,line))
+        {
+            vector_data.push_back(line);
+        }
+        file.close();
+
+        std::string resource_data;
+        for (std::string str : vector_data)
+        {
+            resource_data += str;
+        }
+        return resource_data;
+}
+
+void HTTP_REQUEST::Build_Http_Response(std::string resource_data)
+{
+    
+    
+    std::string server_response_first_line = HTTP_VERSION + " " + "200" + " " + "OK" + "\r\n";
+    std::string content_type = "Content-Type: text/html\r\n";
+    int size = sizeof(resource_data);
+    std::string sizedata = std::to_string(size);
+    std::string server_response_header_fields = "Content-Length: " + sizedata +"\r\n"+content_type;
+    std::string space = "\r\n";  
+    SERVER_RESPONSE = server_response_first_line+server_response_header_fields+space+resource_data;
+}
+
+
+
+
+
+   
+
+

@@ -1,7 +1,12 @@
 [
 {
   "directory": "/home/Programming/Server/build",
-  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -g -o CMakeFiles/server.dir/local_server.cpp.o -c /home/Programming/Server/local_server.cpp",
-  "file": "/home/Programming/Server/local_server.cpp"
+  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -g -o CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o -c /home/Programming/Server/includes/Sourcefiles/local_server.cpp",
+  "file": "/home/Programming/Server/includes/Sourcefiles/local_server.cpp"
+},
+{
+  "directory": "/home/Programming/Server/build",
+  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -g -o CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o -c /home/Programming/Server/includes/Sourcefiles/http_request.cpp",
+  "file": "/home/Programming/Server/includes/Sourcefiles/http_request.cpp"
 }
 ]

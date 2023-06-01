@@ -65,6 +65,20 @@ HTTP MESSAGES
     CR = \r Carriage return
     LF = \n New Line(Line Feed)
 
+    3 mandatory header fields for client request:
+    Host:
+    User-Agent
+    Accpet:
+
+    4 mandatory headres for REPONSE
+    1. Status line
+    2. Date
+    3. Server
+    4. Content-Type
+    5. Content-Length 
+
+
+
     TEMPLATE OF REPONSE WITH BODY 
     status-line = HTTP-version SP status-code SP reason-phrase CRLF
     Header-feild(s) : Head-field-Value

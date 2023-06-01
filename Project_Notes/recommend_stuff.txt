@@ -1,0 +1,2 @@
+valgrind: c and cpp memory analyzer
+static analyzer: helps with security stuff
