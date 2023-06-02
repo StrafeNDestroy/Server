@@ -1,2 +1,5 @@
 valgrind: c and cpp memory analyzer
 static analyzer: helps with security stuff
+
+
+Chrome by defualt will ask for a favicon even if you do not have a favicon href in your html payload. 

@@ -199,10 +199,11 @@ if(sock_options < 0)
 
 // Creating Socket Familty struct
 struct sockaddr_in family_address;
-const int PORT = 8080;
+const int PORT = 9005;
+char ip[] = "172.20.194.194";
 memset((char*)&family_address,0,sizeof(family_address)); // Initializing memory section for family address to 0, converted familyaddress to char which is one byte sections
 
-family_address.sin_addr.s_addr = htonl(0b01111111000000000000000000000001); // htonl: convert a 32-bit unsigned integer from the host byte order to the network byte order
+inet_pton(AF_INET,ip,&family_address.sin_addr.s_addr); // htonl: convert a 32-bit unsigned integer from the host byte order to the network byte order
 family_address.sin_family = AF_INET;
 family_address.sin_port = htons(PORT); // htons: convert a 16-bit unsigned integer from the host byte order to the network byte order
 socklen_t address_length = sizeof(family_address);
@@ -234,16 +235,26 @@ while(1)
     }
     //Allocate to Heap attempt to prevent buffer overflow
     char requestbuffer[30000];
+    char server_response_buffer[30000];
+
     int valread = read( data_socket_fd , requestbuffer, 30000-1);
+    std::cout << requestbuffer << std::endl;
     std::string requestbuffer_str(requestbuffer);
     std::cout << "################################ Reading Client HTTP Request ################################ \n" << std::endl;
-    // This section will contain HTTP_REQUEST Class to parse and sanatize request according the RFC7230
-    const std::string buffer(requestbuffer);
-    HTTP_REQUEST Http_Request(buffer);
+
+    // Sending reuqest as string to HTTP_REQUEST Class for parsing
+    const std::string http_request(requestbuffer);
+    HTTP_REQUEST Http_Request(http_request);
     std::string server_response = Http_Request.SERVER_RESPONSE;
-    int response_size = sizeof(server_response);
+    
+    // Converting Class reponse to char
+    std::cout << "################################ Class reponse ################################ \n" << std::endl;
     std::cout << server_response << std::endl;
-    write(data_socket_fd,requestbuffer,sizeof(server_response));
+    
+    std::cout << "################################ String Copy ################################ \n" << std::endl;
+    std::strcpy(server_response_buffer,server_response.c_str());
+    std::cout << server_response_buffer<< std::endl;
+    write(data_socket_fd,server_response_buffer,sizeof(server_response_buffer));
     
 }
 
