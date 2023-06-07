@@ -3,3 +3,16 @@ static analyzer: helps with security stuff
 
 
 Chrome by defualt will ask for a favicon even if you do not have a favicon href in your html payload. 
+
+
+NASA POWER OF TEN
+#01 Simple Control Flow: No goto,setjump,longjmp,recursion. 
+#02 Limit All Loops: Loops have defined upper limit integer
+#03 Don't use the Heap: Only use the stack
+#04 Limit Function Size: Functions do 1 thing. No longer than 60 lines
+#05 Practice Data Hiding: Define varaiables at lowest scope possible 
+#06 Check Return Values: Check all return and implement return Value cases. If return is to be ignored set to void
+#07 Limit the Preprocessor: File inclusions Only 
+#08 Restrict Pointers Use: Should not be able to derefernce one layer at a time. NO FUNCTION POINTERS
+#09 Be Pedantic: Compile in Pedantic mode gcc -Wall -Werror -Wpedantic 
+Interaction Reminder: STATIC TEST STATIC TEST!

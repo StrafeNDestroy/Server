@@ -1,0 +1,43 @@
+Globals 
+STATUS_CODE
+HEAD_PATH
+BODY_FLAG
+
+
+
+#1 Get http request 
+#2 json STATUS_CODES = Status_Codes()
+#3 std::vector <std::string> HTTP_REQUEST_ELEMENTS = StringToLinesConversion(http request) 
+#4 std::string FIRST_LINE = Grab_FirstLine(HTTP_REQUEST_ELEMENTS)
+#5 CHeck first line for error: Set STATUS_CODE,STATUS_CODE_MESSAGE, 
+    1. Errors: Spaces, Methods, Version
+#6 Parse first line: Set METHOD, requested Resource 
+#7 Grab_headers(HTTP_REQUEST_ELEMENTS)
+#8 Check Headers for errors
+#9 Check headers if user has acces to resource_data
+#if method is send data to server user Grab_body(HTTP_REQUEST_ELEMENTS)
+# else fetch resource
+#10 Create HTTP Reponse 
+
+
+Extreme Cases to skip other sections of code  else should be handled:
+First line fucked send 400 reponse
+Headers are fucked send 400 reponse
+No acces to resources  No access reponse 
+
+
+
+HTML (.html)
+Plain Text (.txt)
+JSON (.json)
+XML (.xml)
+PDF (.pdf)
+CSV (.csv)
+Microsoft Word (.doc, .docx)
+Microsoft Excel (.xls, .xlsx)
+PowerPoint (.ppt, .pptx)
+Audio files (.mp3, .wav, .ogg)
+Video files (.mp4, .avi, .mov)
+Font files (.ttf, .woff, .otf)
+Archive files (.zip, .tar, .gz)
+Data files (.dat, .dat, .csv)

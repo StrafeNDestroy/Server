@@ -1,5 +1,5 @@
-#ifndef http_request
-#define http_request
+#ifndef http_protocol
+#define http_protocol
 
 
 
@@ -12,24 +12,31 @@
 #include <sstream> 
 #include <regex>
 #include <fstream>
+#include "json.hpp"
+#include <opencv2/opencv.hpp>
+
+using json = nlohmann::json;
 class HTTP_REQUEST
 {
 
 // Class attributes 
 private: 
 
-    std::vector<std::string> HTTP_REQUEST_ELEMENTS;
+    std::vector <std::string> HTTP_REQUEST_ELEMENTS;
+    std::unordered_map <std::string,std::string> HTTP_HEADER_CATEGORIES; 
     std::string HTTP_REQUEST_MESSAGE;
     std::string HTTP_MESSAGE_FIRST_LINE; 
-    std::unordered_map <std::string,std::string> HTTP_HEADER_CATEGORIES;
-    int BODY_FLAG = 0;
     std::string HTTP_BODY;
-    int RESPONSE_CODE = 0;
-    int RESPONSE_SENT = 0;
+    std::string RESPONSE_STATUS_CODE;
+    std::string REPONSE_STATUS_MESSAGE; 
     std::string  METHOD;
     std::string WEBPAGE_PATH = "index.html";
     std::string HTTP_VERSION;
-    std::string PATH_HEAD = "../../website/Index/";
+    std::string PATH_HEAD = "../../website/";
+    int BODY_FLAG = 0;
+    int RESPONSE_SENT = 0;
+    json STATUS_CODES;
+   
     
     
     void StringToLinesConversion();
@@ -37,7 +44,7 @@ private:
     std::string FirstLine_Parse();
     std::string Fetch_Resource(std::string resource_path);
     void Build_Http_Response(std::string resource_data);
-   
+    json Status_Codes();
 // Constructor
 public: 
     // PUBLIC ATTRIBUTE
