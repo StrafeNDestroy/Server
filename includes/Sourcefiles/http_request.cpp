@@ -17,27 +17,29 @@ HTTP_REQUEST::HTTP_REQUEST(const std::string& http_request_message)
         std::unordered_map <std::string,std::string> header_fields = Check_Header_Fields( headers);
         bool is_body = ChecK_For_Body(header_fields);
         // bool has_access = User_Access(header_fields);
-        std::string extension = Extract_Extension(resource_path);
-        if (extension  == "" || extension == "js" || extension == "css")
+        EXTENSION = Extract_Extension(resource_path);
+
+        if (EXTENSION   == "" || EXTENSION  == ".js" || EXTENSION  == ".css")
         {   
 
-           std::pair<std::string, std::string> fetched_file = Fetch_File(resource_path);
+            std::pair<std::string, std::string> fetched_file = Fetch_File(resource_path,EXTENSION);
             std::string file_reponse = fetched_file.first;
             std::string file_size = fetched_file.second;
-            std::string server_reponse = Build_Correct_HTTP_Reponse_File( file_reponse, file_size);
-            SERVER_RESPONSE = server_reponse;
+            std::pair<std::string, int> server_response = Build_Correct_HTTP_Reponse_File( file_reponse, file_size, EXTENSION);
+            FILE_HTTP_REPONSE = server_response.first;
+            FILE_HTTP_REPONSE_SIZE = server_response.second;
         
         }
 
 
         else
         {
-            std::pair<std::vector<char>,std::string> fetched_image = read_image_to_binary(resource_path);
-            std::vector<char> image_reponse = fetched_image.first;
-            std::string image_size = fetched_image.second; 
-            std::string image_base64_reponse = BinarytoBase64(image_reponse);
-            std::string server_reponse = Build_Correct_HTTP_Reponse_Image(image_base64_reponse,image_size);
-            SERVER_RESPONSE = server_reponse;
+            std::pair<std::vector<char>,int> fetched_image = read_image_to_binary(resource_path);
+            IMAGE_BINARY_RESPONSE = fetched_image.first; 
+            IMAGE_BINARY_RESPONSE_SIZE = fetched_image.second;
+            std::pair<std::string, int> server_response = Build_FirstLine_Headers_HTTP_Image_Reponse(IMAGE_BINARY_RESPONSE,EXTENSION);
+            IMAGE_FIRSTLINE_HEADERS_REPONSE = server_response.first;
+            IMAGE_FIRSTLINE_HEADERS_REPONSE_SIZE = server_response.second;
         }
 
 }
@@ -195,11 +197,19 @@ std::string HTTP_REQUEST::Extract_Extension(std::string resource_path)
 
     return extension = "";
 }
- std::pair<std::vector<char>,std::string> HTTP_REQUEST::read_image_to_binary(std::string resource_path) 
+std::pair<std::vector<char>,int> HTTP_REQUEST::read_image_to_binary(std::string resource_path) 
  {
-    // Open the file in binary mode
     std::string head_path = "../../website";
-    resource_path = head_path + resource_path;
+    if(resource_path == "/favicon.ico")
+    {
+        resource_path = head_path + "/images" + resource_path;
+    }
+    else
+    {
+        resource_path = head_path + resource_path;
+    }
+   
+    
     std::ifstream file(resource_path, std::ios::binary);
 
     // Get the size of the file
@@ -211,10 +221,7 @@ std::string HTTP_REQUEST::Extract_Extension(std::string resource_path)
     std::vector<char> buffer(size);
     if (file.read(buffer.data(), size)) 
     {
-        std::stringstream ss;
-        ss << buffer.size();
-        std::string temp = ss.str();
-        const char* image_size = temp.c_str();
+        int image_size = static_cast<int>(size);
         return {buffer,image_size};
     } else 
     {
@@ -227,7 +234,7 @@ std::string HTTP_REQUEST::BinarytoBase64(const std::vector<char>& image_data)
     return cppcodec::base64_rfc4648::encode(image_data.data(),image_data.size());
 
 }
-std::pair<std::string, std::string> HTTP_REQUEST::Fetch_File(std::string resource_path)
+std::pair<std::string, std::string> HTTP_REQUEST::Fetch_File(std::string resource_path,std::string extension)
 {
     std::string head_path = "../../website";
     if (resource_path == "/")
@@ -235,6 +242,12 @@ std::pair<std::string, std::string> HTTP_REQUEST::Fetch_File(std::string resourc
         resource_path = head_path + "/pages/index.html";
 
     }
+    else if(extension == ".js"||extension == ".css")
+    {
+        resource_path = head_path + resource_path;
+    }
+  
+    
 
     std::fstream file(resource_path);
     std::string line;
@@ -257,29 +270,37 @@ std::pair<std::string, std::string> HTTP_REQUEST::Fetch_File(std::string resourc
 
     return {file_response, response_size};
 }
-std::string HTTP_REQUEST::Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string file_size)
+std::pair<std::string, int>  HTTP_REQUEST::Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string file_size,std::string extension)
 {
+    std::ifstream file("../../website/jsons/mime.json");
+    json mime_table = json::parse(file);
+    std::string mime_extension = mime_table[extension];
+    
+
+
     std::ostringstream responseStream;
     responseStream << "HTTP/1.1 200 OK\r\n";
-    responseStream << "Content-Type: text/html\r\n";
+    responseStream << "Content-Type:" << mime_extension <<"\r\n";
     responseStream << "Content-Length: " << file_size << "\r\n";
     responseStream << "\r\n";
     responseStream << file_reponse;
 
     std::string server_reponse = responseStream.str();
-    return server_reponse;
+    int server_reponse_size = server_reponse.size();
+    return {server_reponse,server_reponse_size};
 }
-std::string HTTP_REQUEST::Build_Correct_HTTP_Reponse_Image(std::string image_base64_reponse,std::string image_size)
+std::pair<std::string, int> HTTP_REQUEST::Build_FirstLine_Headers_HTTP_Image_Reponse(std::vector<char> fetched_image_binary,std::string extension)
 {
+
+    std::string file_size = std::to_string(fetched_image_binary.size());
     std::ostringstream responseStream;
     responseStream << "HTTP/1.1 200 OK\r\n";
     responseStream << "Content-Type: image/vnd.microsoft.icon\r\n"; // or "Content-Type: image/vnd.microsoft.icon\r\n"
-    responseStream << "Content-Transfer-Encoding: base64\r\n"; 
-    responseStream << "Content-Length: " << image_size << "\r\n";
+    responseStream << "Content-Length: " << file_size << "\r\n";
     responseStream << "\r\n";
-    responseStream << image_base64_reponse;
     std::string server_response = responseStream.str();
-    return server_response;
+    int server_response_size = server_response.size();
+    return {server_response,server_response_size};
 }
 
 

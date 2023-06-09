@@ -10,7 +10,53 @@
 #include "../Headers/http_request.hpp"
 #include <arpa/inet.h>
 
+void server_response(HTTP_REQUEST server_response,int data_socket_fd)
+{
+    
 
+    if(server_response.EXTENSION == ""|| server_response.EXTENSION == ".js" || server_response.EXTENSION == ".css" )
+    {
+        char server_response_file_buffer[30000];
+        std::strcpy(server_response_file_buffer,server_response.FILE_HTTP_REPONSE.c_str());
+        if(write(data_socket_fd,server_response_file_buffer,server_response.FILE_HTTP_REPONSE_SIZE)<0)
+        {
+            std::cout << "Socket write failed!" << std::endl;
+            exit(-1);
+        }
+        std::cout << "################################ Server Response ################################ \n" << std::endl;
+        std::cout << server_response_file_buffer << std::endl;
+        close(data_socket_fd);
+    }
+
+
+    else
+    {
+        char image_text_reponse[30000];
+        char image_binary_reponse[100000];
+        std::strcpy(image_text_reponse,server_response.IMAGE_FIRSTLINE_HEADERS_REPONSE.c_str());
+        std::copy(server_response.IMAGE_BINARY_RESPONSE.begin(),server_response.IMAGE_BINARY_RESPONSE.end(),image_binary_reponse);
+
+
+        if(write(data_socket_fd,image_text_reponse,server_response.IMAGE_FIRSTLINE_HEADERS_REPONSE_SIZE)<0)
+        {
+            std::cout << "Socket write failed!" << std::endl;
+            exit(-1);
+        }
+
+        if(write(data_socket_fd,image_binary_reponse,server_response.IMAGE_BINARY_RESPONSE_SIZE)<0)
+        {
+            std::cout << "Socket write failed!" << std::endl;
+            exit(-1);
+        }
+        std::cout << "################################ Server Response ################################ \n" << std::endl;
+        std::cout << image_text_reponse << std::endl;
+        std::cout << image_binary_reponse << std::endl;
+
+        close(data_socket_fd);
+
+    }
+
+}
 
 
 
@@ -81,7 +127,7 @@ int main()
         std::cout << "################################ Reading Client HTTP Request ################################ \n" << std::endl;
 
         char client_request_buffer[30000];
-        char server_response_buffer[30000];
+        
 
         if(read( data_socket_fd , client_request_buffer, 30000-1) < 0)
         {
@@ -94,20 +140,7 @@ int main()
         // Sending request as string to HTTP_REQUEST Class for parsing
         const std::string http_request(client_request_buffer);
         HTTP_REQUEST Http_Request(http_request);
-        std::string server_response = Http_Request.SERVER_RESPONSE;
-        int server_reponse_size = server_response.size();
-        
-        
-        std::strcpy(server_response_buffer,server_response.c_str());
-        std::cout << "################################ Server Response ################################ \n" << std::endl;
-        std::cout << server_response_buffer<< std::endl;
-        if(write(data_socket_fd,server_response_buffer,server_reponse_size)<0)
-        {
-            std::cout << "Socket write failed!" << std::endl;
-            exit(-1);
-        }
-        close(data_socket_fd);
-        
+        server_response(Http_Request,data_socket_fd);
     }
 
     return 0;

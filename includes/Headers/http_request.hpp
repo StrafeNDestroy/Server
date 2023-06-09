@@ -28,6 +28,7 @@ private:
 std::string HTTP_REQUEST_MESSAGE;
 
 
+
 json Status_Codes();
 
 // Inital Http request Checks
@@ -42,16 +43,16 @@ std::string Extract_Extension(std::string resource_path);
 
 
 // HTML FILE SECTION
-std::pair<std::string, std::string> Fetch_File(std::string resource_path);
+std::pair<std::string, std::string> Fetch_File(std::string resource_path,std::string extension);
 
 // PICTURE SECTIONS
-std::pair<std::vector<char>,std::string> read_image_to_binary(std::string resource_path);
+std::pair<std::vector<char>,int> read_image_to_binary(std::string resource_path);
 // Convert image binary to 64base
 std::string BinarytoBase64(const std::vector<char>& image_data);
 
 // Build Reponse 
-std::string Build_Correct_HTTP_Reponse_Image(std::string image_base64_reponse,std::string image_size);
-std::string Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string file_size);
+std::pair<std::string, int>  Build_FirstLine_Headers_HTTP_Image_Reponse(std::vector<char> fetched_image_binary,std::string extension);
+std::pair<std::string, int>  Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string file_size,std::string extension);
 
 
 
@@ -59,7 +60,18 @@ std::string Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string
 // Constructor
 public: 
     // PUBLIC ATTRIBUTE
-    std::string SERVER_RESPONSE;
+    // Helper to tell if its media or a File
+    std::string EXTENSION;
+
+    // FILE RESPONSES
+    std::string FILE_HTTP_REPONSE;
+    int FILE_HTTP_REPONSE_SIZE;
+
+    //IMAGE RESPONSES
+    std::string IMAGE_FIRSTLINE_HEADERS_REPONSE;
+    int IMAGE_FIRSTLINE_HEADERS_REPONSE_SIZE;
+    std::vector<char> IMAGE_BINARY_RESPONSE;
+    int IMAGE_BINARY_RESPONSE_SIZE;
     HTTP_REQUEST(const std::string& http_request_message);
 };
 
