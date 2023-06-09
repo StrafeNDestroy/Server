@@ -14,7 +14,7 @@ void server_response(HTTP_REQUEST server_response,int data_socket_fd)
 {
     
 
-    if(server_response.EXTENSION == ""|| server_response.EXTENSION == ".js" || server_response.EXTENSION == ".css" )
+    if(server_response.EXTENSION == ""|| server_response.EXTENSION == ".js" || server_response.EXTENSION == ".css" || server_response.EXTENSION == ".html" )
     {
         char server_response_file_buffer[30000];
         std::strcpy(server_response_file_buffer,server_response.FILE_HTTP_REPONSE.c_str());
@@ -32,7 +32,7 @@ void server_response(HTTP_REQUEST server_response,int data_socket_fd)
     else
     {
         char image_text_reponse[30000];
-        char image_binary_reponse[100000];
+        char image_binary_reponse[500000];
         std::strcpy(image_text_reponse,server_response.IMAGE_FIRSTLINE_HEADERS_REPONSE.c_str());
         std::copy(server_response.IMAGE_BINARY_RESPONSE.begin(),server_response.IMAGE_BINARY_RESPONSE.end(),image_binary_reponse);
 

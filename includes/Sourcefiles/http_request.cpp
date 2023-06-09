@@ -19,7 +19,7 @@ HTTP_REQUEST::HTTP_REQUEST(const std::string& http_request_message)
         // bool has_access = User_Access(header_fields);
         EXTENSION = Extract_Extension(resource_path);
 
-        if (EXTENSION   == "" || EXTENSION  == ".js" || EXTENSION  == ".css")
+        if (EXTENSION   == "" || EXTENSION  == ".js" || EXTENSION  == ".css" || EXTENSION == ".html")
         {   
 
             std::pair<std::string, std::string> fetched_file = Fetch_File(resource_path,EXTENSION);
@@ -237,12 +237,14 @@ std::string HTTP_REQUEST::BinarytoBase64(const std::vector<char>& image_data)
 std::pair<std::string, std::string> HTTP_REQUEST::Fetch_File(std::string resource_path,std::string extension)
 {
     std::string head_path = "../../website";
+
     if (resource_path == "/")
     {
         resource_path = head_path + "/pages/index.html";
 
     }
-    else if(extension == ".js"||extension == ".css")
+    
+    else if(extension == ".js"||extension == ".css"||extension == ".html")
     {
         resource_path = head_path + resource_path;
     }
