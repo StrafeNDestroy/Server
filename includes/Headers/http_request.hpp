@@ -13,38 +13,49 @@
 #include <regex>
 #include <fstream>
 #include "json.hpp"
-#include <opencv2/opencv.hpp>
+#include <cppcodec/base64_rfc4648.hpp>
+
+
 
 using json = nlohmann::json;
+
+
 class HTTP_REQUEST
 {
 
 // Class attributes 
 private: 
+std::string HTTP_REQUEST_MESSAGE;
 
-    std::vector <std::string> HTTP_REQUEST_ELEMENTS;
-    std::unordered_map <std::string,std::string> HTTP_HEADER_CATEGORIES; 
-    std::string HTTP_REQUEST_MESSAGE;
-    std::string HTTP_MESSAGE_FIRST_LINE; 
-    std::string HTTP_BODY;
-    std::string RESPONSE_STATUS_CODE;
-    std::string REPONSE_STATUS_MESSAGE; 
-    std::string  METHOD;
-    std::string WEBPAGE_PATH = "index.html";
-    std::string HTTP_VERSION;
-    std::string PATH_HEAD = "../../website/";
-    int BODY_FLAG = 0;
-    int RESPONSE_SENT = 0;
-    json STATUS_CODES;
-   
-    
-    
-    void StringToLinesConversion();
-    void Categorize_HeaderFields();
-    std::string FirstLine_Parse();
-    std::string Fetch_Resource(std::string resource_path);
-    void Build_Http_Response(std::string resource_data);
-    json Status_Codes();
+
+json Status_Codes();
+
+// Inital Http request Checks
+std::vector <std::string> StringToSingleLines(const std::string& http_request_message);
+std::pair<std::vector<std::string>,std::vector<std::string>> Grab_First_Line(std::vector<std::string> split_http_request);
+std::vector<std::string> Check_First_Line(std::vector<std::string> http_request_sections);
+std::pair<std::vector<std::string>,std::vector<std::string>> Split_Headers_And_Body(const std::vector<std::string> headers_body);
+std::unordered_map <std::string,std::string> Check_Header_Fields(std::vector<std::string> headers);
+bool User_Access(std::unordered_map <std::string,std::string> header_fields);
+bool ChecK_For_Body(std::unordered_map <std::string,std::string> header_fields);
+std::string Extract_Extension(std::string resource_path);
+
+
+// HTML FILE SECTION
+std::pair<std::string, std::string> Fetch_File(std::string resource_path);
+
+// PICTURE SECTIONS
+std::pair<std::vector<char>,std::string> read_image_to_binary(std::string resource_path);
+// Convert image binary to 64base
+std::string BinarytoBase64(const std::vector<char>& image_data);
+
+// Build Reponse 
+std::string Build_Correct_HTTP_Reponse_Image(std::string image_base64_reponse,std::string image_size);
+std::string Build_Correct_HTTP_Reponse_File(std::string file_reponse,std::string file_size);
+
+
+
+
 // Constructor
 public: 
     // PUBLIC ATTRIBUTE

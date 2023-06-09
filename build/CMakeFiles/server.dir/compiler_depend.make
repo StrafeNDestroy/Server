@@ -327,7 +327,17 @@ CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o: ../includes/Sourc
   /usr/include/c++/11/numeric \
   /usr/include/c++/11/bits/stl_numeric.h \
   /usr/include/c++/11/pstl/glue_numeric_defs.h \
-  /usr/include/c++/11/any
+  /usr/include/c++/11/any \
+  /usr/include/cppcodec/base64_rfc4648.hpp \
+  /usr/include/cppcodec/detail/codec.hpp \
+  /usr/include/cppcodec/data/access.hpp \
+  /usr/include/cppcodec/detail/config.hpp \
+  /usr/include/cppcodec/data/raw_result_buffer.hpp \
+  /usr/include/cppcodec/data/access.hpp \
+  /usr/include/cppcodec/detail/base64.hpp \
+  /usr/include/cppcodec/parse_error.hpp \
+  /usr/include/cppcodec/detail/config.hpp \
+  /usr/include/cppcodec/detail/stream_codec.hpp
 
 CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourcefiles/local_server.cpp \
   /usr/include/stdc-predef.h \
@@ -683,6 +693,16 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
   /usr/include/c++/11/bits/stl_numeric.h \
   /usr/include/c++/11/pstl/glue_numeric_defs.h \
   /usr/include/c++/11/any \
+  /usr/include/cppcodec/base64_rfc4648.hpp \
+  /usr/include/cppcodec/detail/codec.hpp \
+  /usr/include/cppcodec/data/access.hpp \
+  /usr/include/cppcodec/detail/config.hpp \
+  /usr/include/cppcodec/data/raw_result_buffer.hpp \
+  /usr/include/cppcodec/data/access.hpp \
+  /usr/include/cppcodec/detail/base64.hpp \
+  /usr/include/cppcodec/parse_error.hpp \
+  /usr/include/cppcodec/detail/config.hpp \
+  /usr/include/cppcodec/detail/stream_codec.hpp \
   /usr/include/arpa/inet.h
 
 
@@ -715,6 +735,14 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
 /usr/include/x86_64-linux-gnu/bits/socket.h:
 
 ../includes/Sourcefiles/local_server.cpp:
+
+/usr/include/cppcodec/detail/stream_codec.hpp:
+
+/usr/include/cppcodec/detail/base64.hpp:
+
+/usr/include/cppcodec/data/access.hpp:
+
+/usr/include/cppcodec/detail/codec.hpp:
 
 /usr/include/c++/11/bits/stl_numeric.h:
 
@@ -770,6 +798,8 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
 
 /usr/include/c++/11/tr1/bessel_function.tcc:
 
+/usr/include/cppcodec/detail/config.hpp:
+
 /usr/include/c++/11/tr1/special_function_util.h:
 
 /usr/include/c++/11/limits:
@@ -815,6 +845,8 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
 /usr/include/c++/11/ext/atomicity.h:
 
 /usr/include/c++/11/bits/stl_pair.h:
+
+/usr/include/cppcodec/parse_error.hpp:
 
 /usr/include/c++/11/bits/locale_facets_nonio.tcc:
 
@@ -1028,6 +1060,8 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
 
 /usr/include/c++/11/debug/assertions.h:
 
+/usr/include/cppcodec/base64_rfc4648.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
 /usr/include/c++/11/bits/functional_hash.h:
@@ -1043,6 +1077,8 @@ CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o: ../includes/Sourc
 /usr/include/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
+
+/usr/include/cppcodec/data/raw_result_buffer.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 

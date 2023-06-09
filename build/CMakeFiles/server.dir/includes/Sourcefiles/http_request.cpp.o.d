@@ -258,4 +258,14 @@ CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o: \
  /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/codecvt \
  /usr/include/c++/11/bits/fs_dir.h /usr/include/c++/11/bits/fs_ops.h \
  /usr/include/c++/11/numeric /usr/include/c++/11/bits/stl_numeric.h \
- /usr/include/c++/11/pstl/glue_numeric_defs.h /usr/include/c++/11/any
+ /usr/include/c++/11/pstl/glue_numeric_defs.h /usr/include/c++/11/any \
+ /usr/include/cppcodec/base64_rfc4648.hpp \
+ /usr/include/cppcodec/detail/codec.hpp \
+ /usr/include/cppcodec/data/access.hpp \
+ /usr/include/cppcodec/detail/config.hpp \
+ /usr/include/cppcodec/data/raw_result_buffer.hpp \
+ /usr/include/cppcodec/data/access.hpp \
+ /usr/include/cppcodec/detail/base64.hpp \
+ /usr/include/cppcodec/parse_error.hpp \
+ /usr/include/cppcodec/detail/config.hpp \
+ /usr/include/cppcodec/detail/stream_codec.hpp

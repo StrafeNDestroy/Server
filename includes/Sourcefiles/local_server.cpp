@@ -13,6 +13,7 @@
 
 
 
+
 int main()
 {
 
@@ -93,7 +94,6 @@ int main()
         // Sending request as string to HTTP_REQUEST Class for parsing
         const std::string http_request(client_request_buffer);
         HTTP_REQUEST Http_Request(http_request);
-    
         std::string server_response = Http_Request.SERVER_RESPONSE;
         int server_reponse_size = server_response.size();
         

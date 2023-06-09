@@ -1,12 +1,12 @@
 [
 {
   "directory": "/home/Programming/Server/build",
-  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/home/Programming/Server/usr/include/opencv/build/include -isystem /usr/local/include/opencv4 -g -o CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o -c /home/Programming/Server/includes/Sourcefiles/local_server.cpp",
+  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/usr/include/cppcodec -isystem /usr/local/include/opencv4 -g -o CMakeFiles/server.dir/includes/Sourcefiles/local_server.cpp.o -c /home/Programming/Server/includes/Sourcefiles/local_server.cpp",
   "file": "/home/Programming/Server/includes/Sourcefiles/local_server.cpp"
 },
 {
   "directory": "/home/Programming/Server/build",
-  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/home/Programming/Server/usr/include/opencv/build/include -isystem /usr/local/include/opencv4 -g -o CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o -c /home/Programming/Server/includes/Sourcefiles/http_request.cpp",
+  "command": "/usr/bin/c++  -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/usr/include/cppcodec -isystem /usr/local/include/opencv4 -g -o CMakeFiles/server.dir/includes/Sourcefiles/http_request.cpp.o -c /home/Programming/Server/includes/Sourcefiles/http_request.cpp",
   "file": "/home/Programming/Server/includes/Sourcefiles/http_request.cpp"
 }
 ]

@@ -41,3 +41,9 @@ Video files (.mp4, .avi, .mov)
 Font files (.ttf, .woff, .otf)
 Archive files (.zip, .tar, .gz)
 Data files (.dat, .dat, .csv)
+
+
+
+
+
+GET /portfolio.js HTTP/1.1

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/home/Programming/Server/usr/include/opencv/build/include -isystem /usr/local/include/opencv4
+CXX_INCLUDES = -I/home/Programming/Server/includes/Headers -I/home/Programming/Server/includes/Sourcefiles -I/usr/include/cppcodec -isystem /usr/local/include/opencv4
 
 CXX_FLAGS = -g
 

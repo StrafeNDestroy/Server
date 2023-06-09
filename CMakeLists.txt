@@ -9,17 +9,19 @@ includes/Sourcefiles/local_server.cpp
 includes/Sourcefiles/http_request.cpp
 ${OpenCV_INCLUDE_DIRS}
 )
+set(CMAKE_BUILD_TYPE Debug)
 
 
 set(
 LIBS
-/usr/include/opencv/build/x64/vc16/lib
 )
 
 include_directories(
     includes/Headers
     includes/Sourcefiles
-    usr/include/opencv/build/include   
+    /usr/include/cppcodec
+    
+    
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 
